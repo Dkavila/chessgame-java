@@ -11,11 +11,11 @@ public class Board {
     public Board(int rows, int columns){
         this.rows = rows;
         this.columns = columns;
-        pieces = new Piece[rows][columns];
+        this.pieces = new Piece[rows][columns];
     }
 
     public Piece getPiece(int row, int column){
-        return pieces[row][column];
+        return this.pieces[row][column];
     }
 
     public Piece getPiece(Position position){

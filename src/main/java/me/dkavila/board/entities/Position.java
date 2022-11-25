@@ -12,8 +12,8 @@ public class Position {
     private int column;
 
     public void setValues(int row, int column){
-        setRow(row);
-        setColumn(column);
+        this.row = row;
+        this.column = column;
     }
 
 }
