@@ -11,7 +11,7 @@ public class Board {
 
     public Board(int rows, int columns){
         if(rows < 1 || columns < 1){
-            BoardException.invalidRowOrColumn();
+            BoardException.invalidRowOrColumn(rows, columns);
         }
         this.rows = rows;
         this.columns = columns;

@@ -33,7 +33,7 @@ public class ChessMatch {
             int row = Integer.parseInt(position.substring(1));
             return new ChessPosition(column, row);
         } catch (RuntimeException e){
-            ChessException.invalidChessPosition();
+            ChessException.invalidChessPosition(position);
             return null;
         }
     }
@@ -42,7 +42,7 @@ public class ChessMatch {
         Position source = sourcePosition.toPosition();
         Position target = targetPosition.toPosition();
         if(!board.thereIsAPiece(source)){
-            ChessException.invalidSourcePosition(source);
+            ChessException.invalidSourcePosition(sourcePosition);
         }
         return (ChessPiece)board.makeMove(source, target);
     }

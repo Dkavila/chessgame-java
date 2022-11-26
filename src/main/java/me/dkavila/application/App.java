@@ -1,9 +1,11 @@
 package me.dkavila.application;
 
 import me.dkavila.application.screen.UI;
+import me.dkavila.board.exception.BoardException;
 import me.dkavila.chess.entities.ChessMatch;
 import me.dkavila.chess.entities.ChessPiece;
 import me.dkavila.chess.entities.ChessPosition;
+import me.dkavila.chess.exception.ChessException;
 
 import java.util.Scanner;
 
@@ -16,13 +18,21 @@ public class App {
         Scanner scanner = new Scanner(System.in);
         ChessMatch chessMatch = new ChessMatch();
         while(true){
-            UI.printBoard(chessMatch.getChessPieces());
-            System.out.print("\nSource: ");
-            ChessPosition source = ChessMatch.readChessPosition(scanner.nextLine());
-            System.out.print("\nTarget: ");
-            ChessPosition target = ChessMatch.readChessPosition(scanner.nextLine());
-
-            ChessPiece capturedPiece = chessMatch.moveChessPiece(source, target);
+            try {
+                UI.clearScreen();
+                UI.printBoard(chessMatch.getChessPieces());
+                System.out.print("\nSource: ");
+                ChessPosition source = ChessMatch.readChessPosition(scanner.nextLine());
+                System.out.print("\nTarget: ");
+                ChessPosition target = ChessMatch.readChessPosition(scanner.nextLine());
+                ChessPiece capturedPiece = chessMatch.moveChessPiece(source, target);
+            }catch (ChessException chessException) {
+                System.out.println(chessException.getMessage());
+                scanner.nextLine();
+            }catch (BoardException boardException) {
+                System.out.println(boardException.getMessage());
+                scanner.nextLine();
+            }
         }
     }
 }
