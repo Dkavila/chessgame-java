@@ -1,7 +1,10 @@
 package me.dkavila.application.screen;
+
 import static me.dkavila.application.screen.ConsoleColor.*;
+
 import me.dkavila.chess.entities.ChessPiece;
 import me.dkavila.chess.entities.Color;
+
 public class UI {
     public static void printBoard(ChessPiece[][] chessPieces){
         for(int row = 0; row < chessPieces.length; row++){
