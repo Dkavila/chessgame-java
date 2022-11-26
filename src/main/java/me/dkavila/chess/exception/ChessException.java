@@ -17,4 +17,8 @@ public class ChessException extends BoardException {
         throw new ChessException("There is no piece on source position." +
                 "\nProvided position: " + chessPosition);
     }
+
+    public static void noPossibleMoves(){
+        throw new ChessException("There is no possible moves for the chosen piece.");
+    }
 }

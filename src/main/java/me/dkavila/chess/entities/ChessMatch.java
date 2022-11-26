@@ -5,11 +5,8 @@ import me.dkavila.board.entities.Position;
 import me.dkavila.chess.entities.pieces.*;
 import me.dkavila.chess.exception.ChessException;
 
-import java.util.InputMismatchException;
-import java.util.Scanner;
-
 public class ChessMatch {
-    private Board board;
+    private final Board board;
 
     public ChessMatch() {
         this.board = new Board(8,8);
@@ -43,6 +40,9 @@ public class ChessMatch {
         Position target = targetPosition.toPosition();
         if(!board.thereIsAPiece(source)){
             ChessException.invalidSourcePosition(sourcePosition);
+        }
+        if(!board.getPiece(source).isThereAnyPossibleMove()){
+            ChessException.noPossibleMoves();
         }
         return (ChessPiece)board.makeMove(source, target);
     }
