@@ -22,9 +22,9 @@ public class App {
                 UI.clearScreen();
                 UI.printBoard(chessMatch.getChessPieces());
                 System.out.print("\nSource: ");
-                ChessPosition source = ChessMatch.readChessPosition(scanner.nextLine());
+                ChessPosition source = ChessPosition.readChessPosition(scanner.nextLine());
                 System.out.print("\nTarget: ");
-                ChessPosition target = ChessMatch.readChessPosition(scanner.nextLine());
+                ChessPosition target = ChessPosition.readChessPosition(scanner.nextLine());
                 ChessPiece capturedPiece = chessMatch.moveChessPiece(source, target);
             }catch (ChessException chessException) {
                 System.out.println(chessException.getMessage());

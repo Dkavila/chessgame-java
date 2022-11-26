@@ -25,6 +25,18 @@ public class ChessPosition {
         return new ChessPosition((char)('a' - position.getColumn()), 8 - position.getRow());
     }
 
+
+    public static ChessPosition readChessPosition(String position){
+        try {
+            char column = position.charAt(0);
+            int row = Integer.parseInt(position.substring(1));
+            return new ChessPosition(column, row);
+        } catch (RuntimeException e){
+            ChessException.invalidChessPosition(position);
+            return null;
+        }
+    }
+
     @Override
     public String toString(){
         return "" + column + row;

@@ -23,18 +23,6 @@ public class ChessMatch {
         return chessPieces;
     }
 
-
-    public static ChessPosition readChessPosition(String position){
-        try {
-            char column = position.charAt(0);
-            int row = Integer.parseInt(position.substring(1));
-            return new ChessPosition(column, row);
-        } catch (RuntimeException e){
-            ChessException.invalidChessPosition(position);
-            return null;
-        }
-    }
-
     public ChessPiece moveChessPiece(ChessPosition sourcePosition, ChessPosition targetPosition){
         Position source = sourcePosition.toPosition();
         Position target = targetPosition.toPosition();
