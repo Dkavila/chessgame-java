@@ -11,7 +11,7 @@ public class Board {
 
     public Board(int rows, int columns){
         if(rows < 1 || columns < 1){
-            throw new BoardException("Error creating board: there must be at least 1 row and 1 column.");
+            BoardException.invalidRowOrColumn();
         }
         this.rows = rows;
         this.columns = columns;
@@ -20,7 +20,7 @@ public class Board {
 
     public Piece getPiece(int row, int column){
         if (!positionExists(row, column)) {
-            throw new BoardException("Position out of the board.");
+            BoardException.positionOutBoard(new Position(row, column));
         }
         return this.pieces[row][column];
     }
@@ -31,14 +31,34 @@ public class Board {
 
     public void placePiece(Piece piece, Position position){
         if (thereIsAPiece(position)) {
-            throw new BoardException("There is already a piece on position " + position);
+            BoardException.pieceAlreadyExists(position);
         }
         this.pieces[position.getRow()][position.getColumn()] = piece;
         piece.position = position;
     }
 
+    public Piece removePiece(Position position){
+        if(!positionExists(position)){
+            BoardException.positionOutBoard(position);
+        }
+        if(getPiece(position) == null){
+            return null;
+        }
+        Piece piece = getPiece(position);
+        piece.position = null;
+        this.pieces[position.getRow()][position.getColumn()] = null;
+        return piece;
+    }
+
     private boolean positionExists(int row, int column){
        return row >= 0 && row < this.rows && column >=0 && column < this.columns;
+    }
+
+    public Piece makeMove(Position source, Position target){
+        Piece piece = removePiece(source);
+        Piece capturedPiece = removePiece(target);
+        placePiece(piece, target);
+        return capturedPiece;
     }
 
     private boolean positionExists(Position position){
@@ -47,7 +67,7 @@ public class Board {
 
     public boolean thereIsAPiece(Position position){
         if(!positionExists(position)){
-            throw new BoardException("Position out of the board." + "\nProvided position: " + position);
+            BoardException.positionOutBoard(position);
         }
         return getPiece(position) != null;
     }

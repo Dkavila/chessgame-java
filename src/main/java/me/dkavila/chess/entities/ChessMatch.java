@@ -3,6 +3,10 @@ package me.dkavila.chess.entities;
 import me.dkavila.board.entities.Board;
 import me.dkavila.board.entities.Position;
 import me.dkavila.chess.entities.pieces.*;
+import me.dkavila.chess.exception.ChessException;
+
+import java.util.InputMismatchException;
+import java.util.Scanner;
 
 public class ChessMatch {
     private Board board;
@@ -20,6 +24,27 @@ public class ChessMatch {
             }
         }
         return chessPieces;
+    }
+
+
+    public static ChessPosition readChessPosition(String position){
+        try {
+            char column = position.charAt(0);
+            int row = Integer.parseInt(position.substring(1));
+            return new ChessPosition(column, row);
+        } catch (RuntimeException e){
+            ChessException.invalidChessPosition();
+            return null;
+        }
+    }
+
+    public ChessPiece moveChessPiece(ChessPosition sourcePosition, ChessPosition targetPosition){
+        Position source = sourcePosition.toPosition();
+        Position target = targetPosition.toPosition();
+        if(!board.thereIsAPiece(source)){
+            ChessException.invalidSourcePosition(source);
+        }
+        return (ChessPiece)board.makeMove(source, target);
     }
 
     private void placeChessPiece(char column, int row, ChessPiece chessPiece){
