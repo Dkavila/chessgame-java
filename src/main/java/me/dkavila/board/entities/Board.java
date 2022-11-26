@@ -47,7 +47,7 @@ public class Board {
 
     public boolean thereIsAPiece(Position position){
         if(!positionExists(position)){
-            throw new BoardException("Position out of the board.");
+            throw new BoardException("Position out of the board." + "\nProvided position: " + position);
         }
         return getPiece(position) != null;
     }

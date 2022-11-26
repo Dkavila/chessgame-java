@@ -22,25 +22,29 @@ public class ChessMatch {
         return chessPieces;
     }
 
+    private void placeChessPiece(char column, int row, ChessPiece chessPiece){
+        board.placePiece(chessPiece, new ChessPosition(column, row).toPosition());
+    }
+
     private void initialSetup(){
         //  Placing White Pieces    //
-        board.placePiece(new Rook(board, Color.WHITE), new Position(7,0));
-        board.placePiece(new Rook(board, Color.WHITE), new Position(7,7));
-        board.placePiece(new Horse(board, Color.WHITE), new Position(7, 1));
-        board.placePiece(new Horse(board, Color.WHITE), new Position(7, 6));
-        board.placePiece(new Bishop(board, Color.WHITE), new Position(7, 2));
-        board.placePiece(new Bishop(board, Color.WHITE), new Position(7, 5));
-        board.placePiece(new Queen(board, Color.WHITE), new Position(7, 3));
-        board.placePiece(new King(board, Color.WHITE), new Position(7, 4));
+        placeChessPiece('a', 1, new Rook(board, Color.WHITE));
+        placeChessPiece('b', 1, new Horse(board, Color.WHITE));
+        placeChessPiece('c', 1, new Bishop(board, Color.WHITE));
+        placeChessPiece('d', 1, new Queen(board, Color.WHITE));
+        placeChessPiece('e', 1, new King(board, Color.WHITE));
+        placeChessPiece('f', 1, new Bishop(board, Color.WHITE));
+        placeChessPiece('g', 1, new Horse(board, Color.WHITE));
+        placeChessPiece('h', 1, new Rook(board, Color.WHITE));
 
         //  Placing Black Pieces    //
-        board.placePiece(new Rook(board, Color.BLACK), new Position(0,0));
-        board.placePiece(new Rook(board, Color.BLACK), new Position(0,7));
-        board.placePiece(new Horse(board, Color.BLACK), new Position(0, 6));
-        board.placePiece(new Bishop(board, Color.BLACK), new Position(0, 2));
-        board.placePiece(new Bishop(board, Color.BLACK), new Position(0, 5));
-        board.placePiece(new Queen(board, Color.BLACK), new Position(0, 3));
-        board.placePiece(new King(board, Color.BLACK), new Position(0, 4));
-        board.placePiece(new Horse(board, Color.BLACK), new Position(0, 1));
+        placeChessPiece('a', 8, new Rook(board, Color.BLACK));
+        placeChessPiece('b', 8, new Horse(board, Color.BLACK));
+        placeChessPiece('c', 8, new Bishop(board, Color.BLACK));
+        placeChessPiece('d', 8, new Queen(board, Color.BLACK));
+        placeChessPiece('e', 8, new King(board, Color.BLACK));
+        placeChessPiece('f', 8, new Bishop(board, Color.BLACK));
+        placeChessPiece('g', 8, new Horse(board, Color.BLACK));
+        placeChessPiece('h', 8, new Rook(board, Color.BLACK));
     }
 }
