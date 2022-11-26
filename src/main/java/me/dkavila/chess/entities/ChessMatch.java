@@ -26,13 +26,24 @@ public class ChessMatch {
     public ChessPiece moveChessPiece(ChessPosition sourcePosition, ChessPosition targetPosition){
         Position source = sourcePosition.toPosition();
         Position target = targetPosition.toPosition();
-        if(!board.thereIsAPiece(source)){
-            ChessException.invalidSourcePosition(sourcePosition);
+        validateSourcePosition(source);
+        validateTargetPosition(source, target);
+        return (ChessPiece)board.makeMove(source, target);
+    }
+
+    private void validateSourcePosition(Position position){
+        if(!board.thereIsAPiece(position)){
+            ChessException.invalidSourcePosition(ChessPosition.fromPosition(position));
         }
-        if(!board.getPiece(source).isThereAnyPossibleMove()){
+        if(!board.getPiece(position).isThereAnyPossibleMove()){
             ChessException.noPossibleMoves();
         }
-        return (ChessPiece)board.makeMove(source, target);
+    }
+
+    private void validateTargetPosition(Position sourcePosition, Position targetPosition){
+        if(!board.getPiece(sourcePosition).possibleMove(targetPosition)){
+            ChessException.invalidMove();
+        }
     }
 
     private void placeChessPiece(char column, int row, ChessPiece chessPiece){

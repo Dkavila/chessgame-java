@@ -2,6 +2,7 @@ package me.dkavila.chess.entities;
 
 import me.dkavila.board.entities.Board;
 import me.dkavila.board.entities.Piece;
+import me.dkavila.board.entities.Position;
 
 public abstract class ChessPiece extends Piece {
     private final Color color;
@@ -14,4 +15,8 @@ public abstract class ChessPiece extends Piece {
         return color;
     }
 
+    protected boolean isThereOpponentPiece(Position position){
+        ChessPiece piece = (ChessPiece) getBoard().getPiece(position);
+        return piece != null && piece.getColor() != this.color;
+    }
 }

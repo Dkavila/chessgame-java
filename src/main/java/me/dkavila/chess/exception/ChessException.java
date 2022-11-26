@@ -21,4 +21,8 @@ public class ChessException extends BoardException {
     public static void noPossibleMoves(){
         throw new ChessException("There is no possible moves for the chosen piece.");
     }
+
+    public static void invalidMove(){
+        throw new ChessException("The chosen piece can't move to target position.");
+    }
 }

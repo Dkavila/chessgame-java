@@ -53,16 +53,15 @@ public class Board {
     private boolean positionExists(int row, int column){
        return row >= 0 && row < this.rows && column >=0 && column < this.columns;
     }
+    public boolean positionExists(Position position){
+        return positionExists(position.getRow(), position.getColumn());
+    }
 
     public Piece makeMove(Position source, Position target){
         Piece piece = removePiece(source);
         Piece capturedPiece = removePiece(target);
         placePiece(piece, target);
         return capturedPiece;
-    }
-
-    private boolean positionExists(Position position){
-        return positionExists(position.getRow(), position.getColumn());
     }
 
     public boolean thereIsAPiece(Position position){
