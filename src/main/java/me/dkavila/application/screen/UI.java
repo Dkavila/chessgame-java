@@ -1,7 +1,7 @@
-package me.dkavila.application;
-
+package me.dkavila.application.screen;
+import static me.dkavila.application.screen.ConsoleColor.*;
 import me.dkavila.chess.entities.ChessPiece;
-
+import me.dkavila.chess.entities.Color;
 public class UI {
     public static void printBoard(ChessPiece[][] chessPieces){
         for(int row = 0; row < chessPieces.length; row++){
@@ -18,7 +18,11 @@ public class UI {
         if(chessPiece == null){
             System.out.print("-");
         } else {
-            System.out.print(chessPiece);
+            if(chessPiece.getColor() == Color.WHITE){
+                System.out.print(ANSI_WHITE + chessPiece + ANSI_RESET);
+            } else {
+                System.out.print(ANSI_YELLOW + chessPiece + ANSI_RESET);
+            }
         }
         System.out.print(" ");
     }

@@ -1,5 +1,6 @@
 package me.dkavila.application;
 
+import me.dkavila.application.screen.UI;
 import me.dkavila.chess.entities.ChessMatch;
 
 /**
