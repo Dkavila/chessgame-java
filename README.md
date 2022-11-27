@@ -10,16 +10,22 @@
 This project is still under development and the nexts updates will release those tasks:
 
 #### Board Layer
-- [ ] Board
-- [ ] Piece
-- [ ] Position
+- [x] Board
+- [x] Piece
+- [x] Position
 #### Chess Layer
-- [ ] ChessPiece
-- [ ] ChessPosition
+- [x] ChessPiece
+- [x] ChessPosition
 #### Exceptions
-- [ ] BoardException
-- [ ] ChessExceptions
-
+- [x] BoardException
+- [x] ChessExceptions
+#### ChessLogic
+- [ ] Pieces possible moves
+- [ ] Check
+- [ ] CheckMate
+#### AI
+- [ ] MiniMax function
+- [ ] Alpha-Beta Pruning
 
 ## 💻 Prerequisites
 
