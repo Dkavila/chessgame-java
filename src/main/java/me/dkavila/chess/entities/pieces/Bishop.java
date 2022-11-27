@@ -23,41 +23,41 @@ public class Bishop extends ChessPiece {
 
         // Up-right diagonal
         position.setValues(getPosition().getRow() - 1, getPosition().getColumn() - 1);
-        while(getBoard().positionExists(position) && !getBoard().thereIsAPiece(position)){
+        while(isFreeMove(position)){
             possibleMoves[position.getRow()][position.getColumn()] = true;
             position.setValues(position.getRow() - 1, position.getColumn() - 1);
         }
-        if(getBoard().positionExists(position) && isThereOpponentPiece(position)){
+        if(canMove(position)){
             possibleMoves[position.getRow()][position.getColumn()] = true;
         }
 
         // Down-right diagonal
         position.setValues(getPosition().getRow() - 1, getPosition().getColumn() + 1);
-        while(getBoard().positionExists(position) && !getBoard().thereIsAPiece(position)){
+        while(isFreeMove(position)){
             possibleMoves[position.getRow()][position.getColumn()] = true;
             position.setValues(position.getRow() - 1, position.getColumn() + 1);
         }
-        if(getBoard().positionExists(position) && isThereOpponentPiece(position)){
+        if(canMove(position)){
             possibleMoves[position.getRow()][position.getColumn()] = true;
         }
 
         // Down-left diagonal
         position.setValues(getPosition().getRow() + 1, getPosition().getColumn() - 1);
-        while(getBoard().positionExists(position) && !getBoard().thereIsAPiece(position)){
+        while(isFreeMove(position)){
             possibleMoves[position.getRow()][position.getColumn()] = true;
             position.setValues(position.getRow() + 1, position.getColumn() - 1);
         }
-        if(getBoard().positionExists(position) && isThereOpponentPiece(position)){
+        if(canMove(position)){
             possibleMoves[position.getRow()][position.getColumn()] = true;
         }
 
         // Down-right diagonal
         position.setValues(getPosition().getRow() + 1, getPosition().getColumn() + 1);
-        while(getBoard().positionExists(position) && !getBoard().thereIsAPiece(position)){
+        while(isFreeMove(position)){
             possibleMoves[position.getRow()][position.getColumn()] = true;
             position.setValues(position.getRow() + 1, position.getColumn() + 1);
         }
-        if(getBoard().positionExists(position) && isThereOpponentPiece(position)){
+        if(canMove(position)){
             possibleMoves[position.getRow()][position.getColumn()] = true;
         }
 

@@ -10,6 +10,7 @@ public class ChessPosition {
     private int row;
 
     public ChessPosition(char column, int row){
+        column = Character.toLowerCase(column);
         if(column < 'a' || column > 'h' || row < 1 || row > 8){
             ChessException.invalidChessPosition("" + column + row);
         }
@@ -17,18 +18,19 @@ public class ChessPosition {
         this.row = row;
     }
 
+
     protected Position toPosition(){
         return new Position((8 - this.row), (this.column - 'a'));
     }
 
     protected static ChessPosition fromPosition(Position position){
-        return new ChessPosition((char)('a' + position.getColumn()), 8 - position.getRow());
+        return new ChessPosition((char)('a' + position.getColumn()), (8 - position.getRow()));
     }
 
 
     public static ChessPosition readChessPosition(String position){
         try {
-            char column = position.charAt(0);
+            char column = Character.toLowerCase(position.charAt(0));
             int row = Integer.parseInt(position.substring(1));
             return new ChessPosition(column, row);
         } catch (RuntimeException e){
