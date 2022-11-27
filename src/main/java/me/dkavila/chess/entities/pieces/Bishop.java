@@ -21,7 +21,7 @@ public class Bishop extends ChessPiece {
         boolean[][] possibleMoves = new boolean[getBoard().getRows()][getBoard().getColumns()];
         Position position = new Position(0, 0);
 
-        // Up-right diagonal
+        // Up-left diagonal
         position.setValues(getPosition().getRow() - 1, getPosition().getColumn() - 1);
         while(isFreeMove(position)){
             possibleMoves[position.getRow()][position.getColumn()] = true;
@@ -31,7 +31,7 @@ public class Bishop extends ChessPiece {
             possibleMoves[position.getRow()][position.getColumn()] = true;
         }
 
-        // Down-right diagonal
+        // Up-right diagonal
         position.setValues(getPosition().getRow() - 1, getPosition().getColumn() + 1);
         while(isFreeMove(position)){
             possibleMoves[position.getRow()][position.getColumn()] = true;
