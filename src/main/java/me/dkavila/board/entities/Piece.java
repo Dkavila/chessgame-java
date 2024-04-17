@@ -12,6 +12,8 @@ public abstract class Piece {
         this.position = null;
     }
 
+    private int moveCount;
+
     public abstract boolean[][] possibleMoves();
 
     // possibleMove() is a concrete implementation of an abstract method.
@@ -36,4 +38,15 @@ public abstract class Piece {
         return board;
     }
 
+    public void increaseMoveCount(){
+        this.moveCount++;
+    }
+
+    public void decreaseMoveCount(){
+        this.moveCount--;
+    }
+
+    public int getMoveCount() {
+        return moveCount;
+    }
 }

@@ -61,6 +61,7 @@ public class Board {
         Piece piece = removePiece(source);
         Piece capturedPiece = removePiece(target);
         placePiece(piece, target);
+        piece.increaseMoveCount();
         return capturedPiece;
     }
 
