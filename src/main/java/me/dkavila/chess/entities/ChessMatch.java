@@ -66,6 +66,9 @@ public class ChessMatch {
         placeChessPiece('f', 1, new Bishop(board, Color.WHITE));
         placeChessPiece('g', 1, new Horse(board, Color.WHITE));
         placeChessPiece('h', 1, new Rook(board, Color.WHITE));
+        for( char column = 'a'; column <= 'h'; column++){
+            placeChessPiece(column, 2, new Pawn(board, Color.WHITE));
+        }
 
         //  Placing Black Pieces    //
         placeChessPiece('a', 8, new Rook(board, Color.BLACK));
@@ -76,5 +79,8 @@ public class ChessMatch {
         placeChessPiece('f', 8, new Bishop(board, Color.BLACK));
         placeChessPiece('g', 8, new Horse(board, Color.BLACK));
         placeChessPiece('h', 8, new Rook(board, Color.BLACK));
+        for( char column = 'a'; column <= 'h'; column++){
+            placeChessPiece(column, 7, new Pawn(board, Color.BLACK));
+        }
     }
 }
