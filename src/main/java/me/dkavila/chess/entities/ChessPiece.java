@@ -28,6 +28,13 @@ public abstract class ChessPiece extends Piece {
         return getBoard().positionExists(target) && !getBoard().thereIsAPiece(target);
     }
 
+    protected boolean canCapture(Position target){
+        if(getBoard().positionExists(target) && isThereOpponentPiece(target)){
+            return true;
+        }
+        return false;
+    }
+
     protected boolean isThereOpponentPiece(Position position){
         ChessPiece piece = (ChessPiece) getBoard().getPiece(position);
         return piece != null && piece.getColor() != this.color;
