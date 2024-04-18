@@ -26,22 +26,22 @@ public class Pawn extends ChessPiece {
         int direction = getColor() == Color.WHITE ? 1 : -1;
 
         // Pawn move
-        position.setValues(getPosition().getRow() - (direction * 1) , getPosition().getColumn());
+        position.setValues(getPosition().getRow() - direction , getPosition().getColumn());
         if(isFreeMove(position)){
             possibleMoves[position.getRow()][position.getColumn()] = true;
-            position.setRow(position.getRow() - (direction * 1));
+            position.setRow(position.getRow() - direction);
             if(isFreeMove(position) && getMoveCount() == 0){
                 possibleMoves[position.getRow()][position.getColumn()] = true;
             }
         }
 
         // Pawn capture left
-        position.setValues(getPosition().getRow() - (direction * 1), getPosition().getColumn() - (direction * 1));
+        position.setValues(getPosition().getRow() - direction, getPosition().getColumn() - direction);
         if(canCapture(position)){
             possibleMoves[position.getRow()][position.getColumn()] = true;
         }
         // Pawn capture right
-        position.setValues(getPosition().getRow() - (direction * 1), getPosition().getColumn() + (direction * 1));
+        position.setValues(getPosition().getRow() - direction, getPosition().getColumn() + direction);
         if(canCapture(position)){
             possibleMoves[position.getRow()][position.getColumn()] = true;
         }
