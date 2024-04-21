@@ -16,12 +16,13 @@ public class App {
         while(true){
             try {
                 UI.clearScreen();
-                UI.printBoard(chessMatch.getChessPieces());
+                UI.printChessBoard(chessMatch);
                 System.out.print("\nSource: ");
                 ChessPosition source = ChessPosition.readChessPosition(scanner.nextLine());
-
                 boolean[][] possibleMoves = chessMatch.possibleMoves(source);
-                UI.printBoard(chessMatch.getChessPieces(), possibleMoves);
+                
+                UI.clearScreen();
+                UI.printChessBoard(chessMatch, possibleMoves);
                 System.out.print("\nTarget: ");
                 ChessPosition target = ChessPosition.readChessPosition(scanner.nextLine());
                 ChessPiece capturedPiece = chessMatch.moveChessPiece(source, target);
@@ -31,6 +32,10 @@ public class App {
             }catch (BoardException boardException) {
                 System.out.println(boardException.getMessage());
                 scanner.nextLine();
+            } catch (Exception exception) {
+                System.out.println(exception.getMessage());
+                scanner.close();
+                break;
             }
         }
     }

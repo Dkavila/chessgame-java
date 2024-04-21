@@ -2,6 +2,7 @@ package me.dkavila.application.screen;
 
 import static me.dkavila.application.screen.ConsoleColor.*;
 
+import me.dkavila.chess.entities.ChessMatch;
 import me.dkavila.chess.entities.ChessPiece;
 import me.dkavila.chess.entities.Color;
 
@@ -9,9 +10,17 @@ public class UI {
 
     // Detailed information about clearScreen():
     // http://techno-terminal.blogspot.com/2014/12/clear-command-line-console-and-bold.html
-    public static void  clearScreen(){
-        System.out.print("\033[H\033[2J");
-        System.out.flush();
+    public static void clearScreen() {
+        try {
+            if (System.getProperty("os.name").contains("Windows")) {
+                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+            } else {
+                System.out.print("\033[H\033[2J");
+                System.out.flush();
+            }
+        } catch (Exception e) {
+            System.out.println("Erro ao limpar o terminal: " + e.getMessage());
+        }
     }
 
     public static void printBoard(ChessPiece[][] chessPieces){
@@ -34,6 +43,21 @@ public class UI {
             System.out.println();
         }
         System.out.print("  a b c d e f g h");
+    }
+
+    
+    public static void printChessBoard(ChessMatch chessMatch){
+        printBoard(chessMatch.getChessPieces());
+        System.out.println();
+        System.out.println("Turn: " + chessMatch.getTurn());
+        System.out.println("Waiting player: " + chessMatch.getCurrentPlayer());
+    }
+    
+    public static void printChessBoard(ChessMatch chessMatch, boolean[][] possibleMoves){
+        printBoard(chessMatch.getChessPieces(), possibleMoves);
+        System.out.println();
+        System.out.println("Turn: " + chessMatch.getTurn());
+        System.out.println("Waiting player: " + chessMatch.getCurrentPlayer());
     }
 
     private static void printPiece(ChessPiece chessPiece, boolean background){

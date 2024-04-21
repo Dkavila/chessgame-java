@@ -6,11 +6,26 @@ import me.dkavila.chess.entities.pieces.*;
 import me.dkavila.chess.exception.ChessException;
 
 public class ChessMatch {
+
+    private int turn;
+
+    private Color currentPlayer;
+
     private final Board board;
 
     public ChessMatch() {
-        this.board = new Board(8,8);
+        board = new Board(8,8);
+        turn = 1;
+        currentPlayer = Color.WHITE;
         initialSetup();
+    }
+
+    public int getTurn() {
+        return turn;
+    }
+
+    public Color getCurrentPlayer() {
+        return currentPlayer;
     }
 
     public ChessPiece[][] getChessPieces() {
@@ -28,12 +43,16 @@ public class ChessMatch {
         Position target = targetPosition.toPosition();
         validateSourcePosition(source);
         validateTargetPosition(source, target);
+        nextTurn();
         return (ChessPiece)board.makeMove(source, target);
     }
 
     private void validateSourcePosition(Position position){
         if(!board.thereIsAPiece(position)){
             ChessException.invalidSourcePosition(ChessPosition.fromPosition(position));
+        }
+        if(currentPlayer != ((ChessPiece)board.getPiece(position)).getColor()){
+            ChessException.opponentPieceSelected(currentPlayer);
         }
         if(!board.getPiece(position).isThereAnyPossibleMove()){
             ChessException.noPossibleMoves();
@@ -54,6 +73,11 @@ public class ChessMatch {
 
     private void placeChessPiece(char column, int row, ChessPiece chessPiece){
         board.placePiece(chessPiece, new ChessPosition(column, row).toPosition());
+    }
+
+    private void nextTurn(){
+        turn++;
+        currentPlayer = (currentPlayer == Color.WHITE) ? Color.BLACK : Color.WHITE;
     }
 
     private void initialSetup(){

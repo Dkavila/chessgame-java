@@ -2,6 +2,7 @@ package me.dkavila.chess.exception;
 
 import me.dkavila.board.exception.BoardException;
 import me.dkavila.chess.entities.ChessPosition;
+import me.dkavila.chess.entities.Color;
 
 public class ChessException extends BoardException {
     public ChessException(String msg){
@@ -16,6 +17,11 @@ public class ChessException extends BoardException {
     public static void invalidSourcePosition(ChessPosition chessPosition){
         throw new ChessException("There is no piece on source position." +
                 "\nProvided position: " + chessPosition);
+    }
+
+    public static void opponentPieceSelected(Color currentPlayer){
+        throw new ChessException("The chosen piece is not yours, you can't move it." +
+                "\nYou can only move " + currentPlayer.toString().toLowerCase() + " pieces.");
     }
 
     public static void noPossibleMoves(){
