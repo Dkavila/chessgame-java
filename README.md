@@ -7,7 +7,7 @@
 
 ### Adjusts and Upgrades
 
-This project is still under development and the nexts updates will release those tasks:
+This project is still under development, these are the tasks that I'm working on:
 
 #### Board Layer
 - [x] Board
@@ -20,7 +20,14 @@ This project is still under development and the nexts updates will release those
 - [x] BoardException
 - [x] ChessExceptions
 #### ChessLogic
+- [x] Turns
 - [ ] Pieces possible moves
+  - [x] King
+  - [x] Queen
+  - [x] Rook
+  - [x] Bishop
+  - [x] Knight
+  - [ ] Pawn
 - [ ] Check
 - [ ] CheckMate
 #### AI
