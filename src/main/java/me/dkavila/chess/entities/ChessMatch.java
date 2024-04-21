@@ -1,5 +1,8 @@
 package me.dkavila.chess.entities;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import me.dkavila.board.entities.Board;
 import me.dkavila.board.entities.Position;
 import me.dkavila.chess.entities.pieces.*;
@@ -10,6 +13,10 @@ public class ChessMatch {
     private int turn;
 
     private Color currentPlayer;
+
+    private List<ChessPiece> whiteCaptured = new ArrayList<>();
+
+    private List<ChessPiece> blackCaptured = new ArrayList<>();
 
     private final Board board;
 
@@ -26,6 +33,22 @@ public class ChessMatch {
 
     public Color getCurrentPlayer() {
         return currentPlayer;
+    }
+
+    public List<ChessPiece> getBlackCaptured() {
+        return blackCaptured;
+    }
+
+    public List<ChessPiece> getWhiteCaptured() {
+        return whiteCaptured;
+    }
+
+    public void addWhiteCaptured(ChessPiece chessPiece){
+        whiteCaptured.add(chessPiece);
+    }
+
+    public void addBlackCaptured(ChessPiece chessPiece){
+        blackCaptured.add(chessPiece);
     }
 
     public ChessPiece[][] getChessPieces() {
