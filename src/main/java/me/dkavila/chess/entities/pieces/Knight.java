@@ -5,9 +5,9 @@ import me.dkavila.board.entities.Position;
 import me.dkavila.chess.entities.ChessPiece;
 import me.dkavila.chess.entities.Color;
 
-public class Horse extends ChessPiece {
+public class Knight extends ChessPiece {
 
-    public Horse(Board board, Color color) {
+    public Knight(Board board, Color color) {
         super(board, color);
     }
 

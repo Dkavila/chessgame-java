@@ -14,9 +14,11 @@ public class ChessMatch {
 
     private Color currentPlayer;
 
-    private List<ChessPiece> whiteCaptured = new ArrayList<>();
+    private List<ChessPiece> whiteCaptured;
 
-    private List<ChessPiece> blackCaptured = new ArrayList<>();
+    private List<ChessPiece> blackCaptured;
+
+    private ChessPiece enPassantVulnerable;
 
     private final Board board;
 
@@ -24,6 +26,9 @@ public class ChessMatch {
         board = new Board(8,8);
         turn = 1;
         currentPlayer = Color.WHITE;
+        whiteCaptured = new ArrayList<>();
+        blackCaptured = new ArrayList<>();
+        enPassantVulnerable = null;
         initialSetup();
     }
 
@@ -51,6 +56,10 @@ public class ChessMatch {
         blackCaptured.add(chessPiece);
     }
 
+    public ChessPiece getEnPassantVulnerable() {
+        return enPassantVulnerable;
+    }
+
     public ChessPiece[][] getChessPieces() {
         ChessPiece[][] chessPieces = new ChessPiece[board.getRows()][board.getColumns()];
         for(int row = 0; row < board.getRows(); row++){
@@ -66,8 +75,39 @@ public class ChessMatch {
         Position target = targetPosition.toPosition();
         validateSourcePosition(source);
         validateTargetPosition(source, target);
+
+        ChessPiece movedPiece = (ChessPiece)board.getPiece(source);
+
+        // Special Move - En Passant
+        if((movedPiece instanceof Pawn) && (target.getRow() == (source.getRow() - 2) || target.getRow() == (source.getRow() + 2))){
+            enPassantVulnerable = movedPiece;
+        } else {
+            enPassantVulnerable = null;
+        }
+
+        ChessPiece capturedPiece = (ChessPiece)board.makeMove(source, target);
+
         nextTurn();
-        return (ChessPiece)board.makeMove(source, target);
+
+        if(movedPiece instanceof Pawn){
+            int direction = movedPiece.getColor() == Color.WHITE ? 1 : -1;
+
+            // If the Pawn changes the column and does not capture any piece
+            if(source.getColumn() != target.getColumn()){
+                capturedPiece = (ChessPiece)board.getPiece(target.getRow() + direction, target.getColumn());
+                board.removePiece(capturedPiece.getPosition());
+            }
+        }
+
+        if(capturedPiece != null){
+            if (capturedPiece.getColor() == Color.WHITE) {
+                whiteCaptured.add(capturedPiece);
+            } else {
+                blackCaptured.add(capturedPiece);
+            }
+        }
+
+        return capturedPiece;
     }
 
     private void validateSourcePosition(Position position){
@@ -104,30 +144,30 @@ public class ChessMatch {
     }
 
     private void initialSetup(){
-        //  Placing White Pieces    //
+        //  Placing White Pieces
         placeChessPiece('a', 1, new Rook(board, Color.WHITE));
-        placeChessPiece('b', 1, new Horse(board, Color.WHITE));
+        placeChessPiece('b', 1, new Knight(board, Color.WHITE));
         placeChessPiece('c', 1, new Bishop(board, Color.WHITE));
         placeChessPiece('d', 1, new Queen(board, Color.WHITE));
         placeChessPiece('e', 1, new King(board, Color.WHITE));
         placeChessPiece('f', 1, new Bishop(board, Color.WHITE));
-        placeChessPiece('g', 1, new Horse(board, Color.WHITE));
+        placeChessPiece('g', 1, new Knight(board, Color.WHITE));
         placeChessPiece('h', 1, new Rook(board, Color.WHITE));
         for( char column = 'a'; column <= 'h'; column++){
-            placeChessPiece(column, 2, new Pawn(board, Color.WHITE));
+            placeChessPiece(column, 2, new Pawn(board, Color.WHITE, this));
         }
 
-        //  Placing Black Pieces    //
+        //  Placing Black Pieces
         placeChessPiece('a', 8, new Rook(board, Color.BLACK));
-        placeChessPiece('b', 8, new Horse(board, Color.BLACK));
+        placeChessPiece('b', 8, new Knight(board, Color.BLACK));
         placeChessPiece('c', 8, new Bishop(board, Color.BLACK));
         placeChessPiece('d', 8, new Queen(board, Color.BLACK));
         placeChessPiece('e', 8, new King(board, Color.BLACK));
         placeChessPiece('f', 8, new Bishop(board, Color.BLACK));
-        placeChessPiece('g', 8, new Horse(board, Color.BLACK));
+        placeChessPiece('g', 8, new Knight(board, Color.BLACK));
         placeChessPiece('h', 8, new Rook(board, Color.BLACK));
         for( char column = 'a'; column <= 'h'; column++){
-            placeChessPiece(column, 7, new Pawn(board, Color.BLACK));
+            placeChessPiece(column, 7, new Pawn(board, Color.BLACK, this));
         }
     }
 }

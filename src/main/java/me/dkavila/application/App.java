@@ -3,9 +3,7 @@ package me.dkavila.application;
 import me.dkavila.application.screen.UI;
 import me.dkavila.board.exception.BoardException;
 import me.dkavila.chess.entities.ChessMatch;
-import me.dkavila.chess.entities.ChessPiece;
 import me.dkavila.chess.entities.ChessPosition;
-import me.dkavila.chess.entities.Color;
 import me.dkavila.chess.exception.ChessException;
 
 import java.util.Scanner;
@@ -26,16 +24,7 @@ public class App {
                 UI.printChessBoard(chessMatch, possibleMoves);
                 System.out.print("\nTarget: ");
                 ChessPosition target = ChessPosition.readChessPosition(scanner.nextLine());
-                ChessPiece capturedPiece = chessMatch.moveChessPiece(source, target);
-
-                if(capturedPiece != null){
-                    if(capturedPiece.getColor() == Color.WHITE){
-                        chessMatch.addWhiteCaptured(capturedPiece);   
-                    } else {
-                        chessMatch.addBlackCaptured(capturedPiece);
-                    }
-                }
-                
+                chessMatch.moveChessPiece(source, target);
             }catch (ChessException chessException) {
                 System.out.println(chessException.getMessage());
                 scanner.nextLine();

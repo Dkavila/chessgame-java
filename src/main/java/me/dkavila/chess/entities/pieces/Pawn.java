@@ -2,13 +2,17 @@ package me.dkavila.chess.entities.pieces;
 
 import me.dkavila.board.entities.Board;
 import me.dkavila.board.entities.Position;
+import me.dkavila.chess.entities.ChessMatch;
 import me.dkavila.chess.entities.ChessPiece;
 import me.dkavila.chess.entities.Color;
 
 public class Pawn extends ChessPiece {
 
-    public Pawn(Board board, Color color) {
+    private ChessMatch chessMatch;
+
+    public Pawn(Board board, Color color, ChessMatch chessMatch) {
         super(board, color);
+        this.chessMatch = chessMatch;
     }
 
     @Override
@@ -46,6 +50,21 @@ public class Pawn extends ChessPiece {
             possibleMoves[position.getRow()][position.getColumn()] = true;
         }
 
+        // Special Move - En Passant
+        ChessPiece enPassantVulnerable = chessMatch.getEnPassantVulnerable();
+        if(enPassantVulnerable != null){
+            Position left = new Position(getPosition().getRow(), getPosition().getColumn() - 1);
+            Position futurePosition = new Position(left.getRow() - direction, getPosition().getColumn() - 1);
+            if(canCapture(left) && enPassantVulnerable.equals(getBoard().getPiece(left)) && isFreeMove(futurePosition)){
+                possibleMoves[left.getRow() - direction][left.getColumn()] = true;
+            }
+            Position right = new Position(getPosition().getRow(), getPosition().getColumn() + 1);
+            futurePosition = new Position(right.getRow() - direction, getPosition().getColumn() + 1);
+            if(canCapture(right) && enPassantVulnerable.equals(getBoard().getPiece(right)) && isFreeMove(futurePosition)){
+                possibleMoves[right.getRow() - direction][right.getColumn()] = true;
+            }
+        }
+        
         return possibleMoves;
     }
 }
