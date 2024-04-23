@@ -16,6 +16,11 @@ public class King extends ChessPiece {
         return "K";
     }
 
+    private boolean testRookCastle(Position position){
+        ChessPiece piece = (ChessPiece)getBoard().getPiece(position);
+        return piece != null && piece instanceof Rook && piece.getColor() == getColor() && piece.getMoveCount() == 0;
+    }
+
     @Override
     public boolean[][] possibleMoves() {
         boolean[][] possibleMoves =  new boolean[getBoard().getRows()][getBoard().getColumns()];
@@ -69,6 +74,30 @@ public class King extends ChessPiece {
             possibleMoves[position.getRow()][position.getColumn()] = true;
         }
 
+        // Special Move - Castling
+        if(getMoveCount() == 0){
+            Position kingRookPosition = new Position(getPosition().getRow(), getPosition().getColumn() + 3);
+            if(testRookCastle(kingRookPosition)){
+                Position position1 = new Position(getPosition().getRow(), getPosition().getColumn() + 1);
+                Position position2 = new Position(getPosition().getRow(), getPosition().getColumn() + 2);
+                if(getBoard().getPiece(position1) == null && getBoard().getPiece(position2) == null){
+                    possibleMoves[getPosition().getRow()][getPosition().getColumn() + 2] = true;
+                }
+            }
+
+            Position queenRookPosition = new Position(getPosition().getRow(), getPosition().getColumn() - 4);
+            if(testRookCastle(queenRookPosition)){
+                Position position1 = new Position(getPosition().getRow(), getPosition().getColumn() - 1);
+                Position position2 = new Position(getPosition().getRow(), getPosition().getColumn() - 2);
+                Position position3 = new Position(getPosition().getRow(), getPosition().getColumn() - 3);
+                if(getBoard().getPiece(position1) == null && getBoard().getPiece(position2) == null && getBoard().getPiece(position3) == null){
+                    possibleMoves[getPosition().getRow()][getPosition().getColumn() - 2] = true;
+                }
+            }
+
+        }
+
         return possibleMoves;
     }
+
 }

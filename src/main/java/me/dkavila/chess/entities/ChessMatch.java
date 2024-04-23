@@ -78,26 +78,46 @@ public class ChessMatch {
 
         ChessPiece movedPiece = (ChessPiece)board.getPiece(source);
 
-        // Special Move - En Passant
-        if((movedPiece instanceof Pawn) && (target.getRow() == (source.getRow() - 2) || target.getRow() == (source.getRow() + 2))){
-            enPassantVulnerable = movedPiece;
-        } else {
-            enPassantVulnerable = null;
-        }
-
         ChessPiece capturedPiece = (ChessPiece)board.makeMove(source, target);
 
-        nextTurn();
-
+        // Special Move - En Passant (remove captured piece)
         if(movedPiece instanceof Pawn){
-            int direction = movedPiece.getColor() == Color.WHITE ? 1 : -1;
+            // If the pawn moved two steps
+            if((target.getRow() == (source.getRow() - 2) || target.getRow() == (source.getRow() + 2))){
+                enPassantVulnerable = movedPiece;
+            } else {
+                enPassantVulnerable = null;
+            }
 
             // If the Pawn changes the column and does not capture any piece
-            if(source.getColumn() != target.getColumn()){
+            if(source.getColumn() != target.getColumn() && capturedPiece == null){
+                int direction = movedPiece.getColor() == Color.WHITE ? 1 : -1;
                 capturedPiece = (ChessPiece)board.getPiece(target.getRow() + direction, target.getColumn());
                 board.removePiece(capturedPiece.getPosition());
             }
         }
+
+        // Special Move - Castling
+        if(movedPiece instanceof King) {
+            // Kingside Castling
+            if(target.getColumn() == source.getColumn() + 2){
+                Position sourceRookPosition = new Position(source.getRow(), source.getColumn() + 3);
+                Position targetRookPosition = new Position(source.getRow(), source.getColumn() + 1);
+                ChessPiece rook = (ChessPiece) board.getPiece(sourceRookPosition);
+                board.removePiece(sourceRookPosition);
+                board.placePiece(rook, targetRookPosition);
+            }
+            
+            // Queenside Castling
+            if(target.getColumn() == source.getColumn() - 2){
+                Position sourceRookPosition = new Position(source.getRow(), source.getColumn() - 4);
+                Position targetRookPosition = new Position(source.getRow(), source.getColumn() - 1);
+                ChessPiece rook = (ChessPiece) board.getPiece(sourceRookPosition);
+                board.removePiece(sourceRookPosition);
+                board.placePiece(rook, targetRookPosition);
+            }
+        }
+        
 
         if(capturedPiece != null){
             if (capturedPiece.getColor() == Color.WHITE) {
@@ -106,6 +126,8 @@ public class ChessMatch {
                 blackCaptured.add(capturedPiece);
             }
         }
+
+        nextTurn();
 
         return capturedPiece;
     }
