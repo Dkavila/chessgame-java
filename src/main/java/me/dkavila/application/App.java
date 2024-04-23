@@ -25,6 +25,15 @@ public class App {
                 System.out.print("\nTarget: ");
                 ChessPosition target = ChessPosition.readChessPosition(scanner.nextLine());
                 chessMatch.moveChessPiece(source, target);
+
+                if(chessMatch.getPromoted() != null){
+                    String type = "P";
+                    do {
+                        System.out.print("Enter piece for promotion (B/N/R/Q): ");
+                        type = scanner.nextLine().toUpperCase();
+                    }while(!type.equals("B") && !type.equals("N") && !type.equals("R") && !type.equals("Q"));
+                    chessMatch.replacePromotedPiece(type);
+                }
             }catch (ChessException chessException) {
                 System.out.println(chessException.getMessage());
                 scanner.nextLine();

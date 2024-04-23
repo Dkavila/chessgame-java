@@ -1,9 +1,11 @@
 package me.dkavila.chess.entities;
 
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.List;
 
 import me.dkavila.board.entities.Board;
+import me.dkavila.board.entities.Piece;
 import me.dkavila.board.entities.Position;
 import me.dkavila.chess.entities.pieces.*;
 import me.dkavila.chess.exception.ChessException;
@@ -19,6 +21,8 @@ public class ChessMatch {
     private List<ChessPiece> blackCaptured;
 
     private ChessPiece enPassantVulnerable;
+
+    private ChessPiece promoted;
 
     private final Board board;
 
@@ -46,6 +50,10 @@ public class ChessMatch {
 
     public List<ChessPiece> getWhiteCaptured() {
         return whiteCaptured;
+    }
+
+    public ChessPiece getPromoted() {
+        return promoted;
     }
 
     public void addWhiteCaptured(ChessPiece chessPiece){
@@ -76,13 +84,15 @@ public class ChessMatch {
         validateSourcePosition(source);
         validateTargetPosition(source, target);
 
+        promoted = null;
+
         ChessPiece movedPiece = (ChessPiece)board.getPiece(source);
 
         ChessPiece capturedPiece = (ChessPiece)board.makeMove(source, target);
 
-        // Special Move - En Passant (remove captured piece)
         if(movedPiece instanceof Pawn){
-            // If the pawn moved two steps
+            // Special Move - En Passant (remove captured piece)
+            // If the pawn moved two steps, is vulnerable to en passant
             if((target.getRow() == (source.getRow() - 2) || target.getRow() == (source.getRow() + 2))){
                 enPassantVulnerable = movedPiece;
             } else {
@@ -94,6 +104,11 @@ public class ChessMatch {
                 int direction = movedPiece.getColor() == Color.WHITE ? 1 : -1;
                 capturedPiece = (ChessPiece)board.getPiece(target.getRow() + direction, target.getColumn());
                 board.removePiece(capturedPiece.getPosition());
+            }
+
+            // Special Move - Promotion
+            if((target.getRow() == 0 && movedPiece.getColor() == Color.WHITE) || (target.getRow() == 7 && movedPiece.getColor() == Color.BLACK)){
+                promoted = movedPiece;
             }
         }
 
@@ -132,6 +147,30 @@ public class ChessMatch {
         return capturedPiece;
     }
 
+    public ChessPiece replacePromotedPiece(String type){
+        if(promoted == null){
+            throw new IllegalStateException("There is no piece to be promoted");
+        }
+        if(!type.equals("B") && !type.equals("N") && !type.equals("R") && !type.equals("Q")){
+            throw new InvalidParameterException("Invalid type for promotion");
+        }
+        Position position = promoted.getPosition();
+        Piece piece = board.removePiece(position);
+        ChessPiece newPiece = newPiece(type, promoted.getColor());
+        board.placePiece(newPiece, position);
+
+        return newPiece;
+    }
+
+    private ChessPiece newPiece(String type, Color color){
+        switch(type) {
+            case "B": return new Bishop(board, color);
+            case "N": return new Knight(board, color);
+            case "R": return new Rook(board, color);
+            default: return new Queen(board, color);
+        }
+    }
+
     private void validateSourcePosition(Position position){
         if(!board.thereIsAPiece(position)){
             ChessException.invalidSourcePosition(ChessPosition.fromPosition(position));
@@ -166,7 +205,7 @@ public class ChessMatch {
     }
 
     private void initialSetup(){
-        //  Placing White Pieces
+        // Placing White Pieces
         placeChessPiece('a', 1, new Rook(board, Color.WHITE));
         placeChessPiece('b', 1, new Knight(board, Color.WHITE));
         placeChessPiece('c', 1, new Bishop(board, Color.WHITE));
@@ -179,7 +218,7 @@ public class ChessMatch {
             placeChessPiece(column, 2, new Pawn(board, Color.WHITE, this));
         }
 
-        //  Placing Black Pieces
+        // Placing Black Pieces
         placeChessPiece('a', 8, new Rook(board, Color.BLACK));
         placeChessPiece('b', 8, new Knight(board, Color.BLACK));
         placeChessPiece('c', 8, new Bishop(board, Color.BLACK));

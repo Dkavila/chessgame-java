@@ -11,7 +11,7 @@ public abstract class Piece {
         this.board = board;
         this.position = null;
     }
-
+    
     private int moveCount;
 
     public abstract boolean[][] possibleMoves();
