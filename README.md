@@ -21,18 +21,22 @@ This project is still under development, these are the tasks that I'm working on
 - [x] ChessExceptions
 #### ChessLogic
 - [x] Turns
-- [ ] Pieces possible moves
+- [x] Pieces possible moves
   - [x] King
   - [x] Queen
   - [x] Rook
   - [x] Bishop
   - [x] Knight
-  - [ ] Pawn
+  - [x] Pawn
+- [x] Special Moves (Castling / En Passant / Promotion)
 - [ ] Check
 - [ ] CheckMate
 #### AI
 - [ ] MiniMax function
 - [ ] Alpha-Beta Pruning
+#### History
+- [ ] Moves History (Algebric Notation)
+- [ ] Export Simple PGN
 
 ## 💻 Prerequisites
 
