@@ -1,11 +1,9 @@
 package me.dkavila.chess.entities;
 
-import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.List;
 
 import me.dkavila.board.entities.Board;
-import me.dkavila.board.entities.Piece;
 import me.dkavila.board.entities.Position;
 import me.dkavila.chess.entities.pieces.*;
 import me.dkavila.chess.exception.ChessException;
@@ -152,11 +150,12 @@ public class ChessMatch {
             throw new IllegalStateException("There is no piece to be promoted");
         }
         if(!type.equals("B") && !type.equals("N") && !type.equals("R") && !type.equals("Q")){
-            throw new InvalidParameterException("Invalid type for promotion");
+            // Default to Queen
+            type = "Q";
         }
         Position position = promoted.getPosition();
-        Piece piece = board.removePiece(position);
         ChessPiece newPiece = newPiece(type, promoted.getColor());
+        board.removePiece(position);
         board.placePiece(newPiece, position);
 
         return newPiece;
